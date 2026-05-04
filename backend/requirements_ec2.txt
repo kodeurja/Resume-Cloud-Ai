@@ -1,0 +1,8 @@
+flask
+flask-cors
+gunicorn
+boto3
+bcrypt
+PyJWT
+requests
+python-dotenv

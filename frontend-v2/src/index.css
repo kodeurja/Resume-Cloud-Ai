@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+@theme {
+  --color-app-bg: #F8FAFC;
+  --color-foreground: #0F172A;
+  --color-muted: #475569;
+  --color-border: #E2E8F0;
+  --color-primary: #4F46E5;
+  --color-primary-hover: #4338CA;
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-destructive: #EF4444;
+
+  --shadow-soft: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 10px -2px rgba(0, 0, 0, 0.03);
+  --shadow-premium: 0 20px 40px -15px rgba(0, 0, 0, 0.1);
+
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-app-bg);
+    color: var(--color-foreground);
+    @apply antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+@layer components {
+  /* Cards */
+  .card {
+    background-color: white;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-soft);
+    padding: 1.5rem;
+    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .bento-card {
+    background-color: white;
+    border: 1px solid var(--color-border);
+    border-radius: 1rem;
+    box-shadow: var(--shadow-soft);
+    padding: 1.5rem;
+    transition: all 300ms ease;
+  }
+  .bento-card:hover {
+    box-shadow: var(--shadow-premium);
+    transform: translateY(-2px);
+  }
+
+  /* Buttons */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    color: white;
+    background-color: var(--color-primary);
+    box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.2);
+    transition: all 200ms ease;
+  }
+  .btn-primary:hover {
+    background-color: var(--color-primary-hover);
+  }
+  .btn-primary:active {
+    transform: scale(0.98);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    background-color: white;
+    border: 1px solid var(--color-border);
+    color: var(--color-foreground);
+    transition: all 200ms ease;
+  }
+  .btn-secondary:hover {
+    background-color: #F8FAFC;
+  }
+
+  .premium-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    border-radius: 1rem;
+    font-weight: 700;
+    color: white;
+    background-color: var(--color-primary);
+    box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.2);
+    transition: all 200ms ease;
+  }
+  .premium-btn-primary:hover {
+    background-color: var(--color-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 20px 25px -5px rgba(79, 70, 229, 0.1);
+  }
+
+  /* Inputs */
+  .glass-input {
+    width: 100%;
+    background-color: #F8FAFC;
+    border: 1px solid var(--color-border);
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    transition: all 200ms ease;
+  }
+  .glass-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+    border-color: var(--color-primary);
+  }
+}

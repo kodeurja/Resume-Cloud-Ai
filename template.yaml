@@ -1,0 +1,106 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  AI Resume Intelligence Platform Backend
+  Advanced serverless backend with S3, Textract, and Bedrock.
+
+Globals:
+  Function:
+    Timeout: 60
+    MemorySize: 512
+  Api:
+    Cors:
+      AllowMethods: "'OPTIONS,POST,GET'"
+      AllowHeaders: "'Content-Type,Authorization'"
+      AllowOrigin: "'*'"
+
+Parameters:
+  JWTSecret:
+    Type: String
+    Description: Secret key used for signing JWT tokens
+    NoEcho: true
+    Default: 'super-secret-key-change-in-prod'
+
+Resources:
+  ResumeProcessorFunction:
+    Type: AWS::Serverless::Function 
+    Properties:
+      CodeUri: backend/
+      Handler: app.lambda_handler
+      Runtime: python3.12
+      Architectures:
+        - x86_64
+      Environment:
+        Variables:
+          RESULTS_TABLE_NAME: !Ref ResumeIntelligenceTable
+          RESUME_BUCKET_NAME: !Ref ResumeStorageBucket
+          USERS_TABLE_NAME: !Ref UsersTable
+          JWT_SECRET: !Ref JWTSecret
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - bedrock:InvokeModel
+                - dynamodb:PutItem
+                - dynamodb:GetItem
+                - dynamodb:Query
+                - dynamodb:Scan
+                - s3:PutObject
+                - s3:GetObject
+                - textract:DetectDocumentText
+                - textract:AnalyzeDocument
+                - cloudwatch:PutMetricData
+              Resource: "*"
+      Events:
+        SummarizeApi:
+          Type: Api
+          Properties:
+            Path: /{proxy+}
+            Method: ANY
+
+  ResumeIntelligenceTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: UserId
+          AttributeType: S
+        - AttributeName: Timestamp
+          AttributeType: S
+      KeySchema:
+        - AttributeName: UserId
+          KeyType: HASH
+        - AttributeName: Timestamp
+          KeyType: RANGE
+
+  ResumeStorageBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders: ['*']
+            AllowedMethods: [GET, POST, PUT]
+            AllowedOrigins: ['*']
+
+  UsersTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: email
+          AttributeType: S
+      KeySchema:
+        - AttributeName: email
+          KeyType: HASH
+
+Outputs:
+  ApiUrl:
+    Description: "API Gateway endpoint URL"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+  BucketName:
+    Value: !Ref ResumeStorageBucket

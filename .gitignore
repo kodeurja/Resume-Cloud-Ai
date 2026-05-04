@@ -1,0 +1,26 @@
+# AWS SAM
+.aws-sam/
+
+# Node dependencies
+node_modules/
+dist/
+build/
+.env
+.env.local
+
+# Python dependencies
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+.env/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Private keys
+*.pem
+*.ppk
