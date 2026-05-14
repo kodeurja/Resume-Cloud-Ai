@@ -4,7 +4,7 @@ import { Mail, Lock, ArrowRight, Loader2 } from 'lucide-react';
 import axios from 'axios';
 import { Button } from '../ui';
 
-import { API_BASE } from '../config/api';
+import { API_BASE } from '../../config/api';
 
 const Login = ({ onSwitchToSignUp, onLoginSuccess }) => {
   const [formData, setFormData] = useState({ email: '', password: '' });
