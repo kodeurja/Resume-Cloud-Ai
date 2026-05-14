@@ -4,7 +4,7 @@ import { Mail, Lock, ArrowRight, Loader2 } from 'lucide-react';
 import axios from 'axios';
 import { Button } from '../ui';
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://127.0.0.1:3000/';
+import { API_BASE } from '../config/api';
 
 const Login = ({ onSwitchToSignUp, onLoginSuccess }) => {
   const [formData, setFormData] = useState({ email: '', password: '' });

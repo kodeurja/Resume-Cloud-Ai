@@ -7,12 +7,7 @@ import * as pdfjsLib from 'pdfjs-dist'
 import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url'
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://127.0.0.1:3000/'
-
-const getAuthHeader = () => {
-  const token = localStorage.getItem('token');
-  return token ? { Authorization: `Bearer ${token}` } : {};
-}
+import { API_BASE, getAuthHeader } from '../config/api'
 
 const ResumeAnalyzer = () => {
   const [file, setFile] = useState(null)

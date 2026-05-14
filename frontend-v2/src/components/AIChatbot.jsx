@@ -4,12 +4,7 @@ import { MessageSquare, X, Send, Command, Sparkles, Bot } from 'lucide-react'
 import { Button } from './ui'
 import axios from 'axios'
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://127.0.0.1:3000/'
-
-const getAuthHeader = () => {
-  const token = localStorage.getItem('token');
-  return token ? { Authorization: `Bearer ${token}` } : {};
-}
+import { API_BASE, getAuthHeader } from '../config/api'
 
 const AIChatbot = () => {
   const [isOpen, setIsOpen] = useState(false)
