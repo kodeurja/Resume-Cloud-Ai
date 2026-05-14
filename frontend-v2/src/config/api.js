@@ -13,7 +13,17 @@ const getApiBase = () => {
   
   // Ensure the base ends with a single slash
   const base = envBase.trim();
-  return base.endsWith('/') ? base : `${base}/`;
+  const normalizedBase = base.endsWith('/') ? base : `${base}/`;
+  
+  // If it's a relative path like /api/, make it absolute using the browser's current origin
+  if (normalizedBase.startsWith('/')) {
+    // Check if we are in a browser environment
+    if (typeof window !== 'undefined') {
+      return `${window.location.origin}${normalizedBase}`;
+    }
+  }
+  
+  return normalizedBase;
 };
 
 export const API_BASE = getApiBase();
